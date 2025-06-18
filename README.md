@@ -1,4 +1,8 @@
 <!-- BEGIN_TF_DOCS -->
+# Introducing our full DevOps program
+
+Lern more here https://tntk.io/self-paced-courses/full-devops-bootcamp
+
 # Who we are
 
 We are a DevOps school run by engineers with rich educational and professional credentials who've helped hundreds of students land tech jobs over the past 5 years - https://tntk.io/ 
