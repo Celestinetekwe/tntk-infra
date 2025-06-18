@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 # Introducing our full DevOps program
 
-Lern more here https://tntk.io/self-paced-courses/full-devops-bootcamp
+Learn more here https://tntk.io/self-paced-courses/full-devops-bootcamp
 
 # Who we are
 
