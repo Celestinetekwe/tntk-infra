@@ -29,7 +29,7 @@ resource "helm_release" "ack-lambda" {
 
 resource "helm_release" "crd-helm-chart" {
   name             = "crd-helm-chart"
-  chart            = "./crd-helm-chart"
+  chart            = "${path.module}/crd-helm-chart"
   namespace        = "crd-helm-chart"
   create_namespace = "true"
   set {

@@ -3,9 +3,14 @@ aws_region              = ""
 tag_env                 = ""
 id_rsa                  = ""
 
-datadog_region          = ""
-datadog_api_key         = ""
-datadog_application_key = ""
+# Datadog Integration Variables
+datadog_region                       = "datadoghq.com"  # Options: datadoghq.com, datadoghq.eu, us3.datadoghq.com, us5.datadoghq.com, ap1.datadoghq.com, ddog-gov.com
+datadog_api_key                      = ""
+datadog_application_key              = ""
+datadog_iam_role_name                = "DatadogIntegrationRole"
+install_lambda_log_forwarder         = "true"  # Options: "true" or "false"
+disable_metric_collection            = "false"  # Options: "true" or "false"
+cloud_security_posture_management    = "false"  # Options: "true" or "false"
 
 registrationToken       = ""
 ci_project_repo         = ""

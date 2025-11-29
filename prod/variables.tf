@@ -29,7 +29,32 @@ variable "datadog_application_key" {
 
 variable "datadog_region" {
   type = string
-  description = "datadog region"
+  description = "datadog region (site)"
+  default     = "us5.datadoghq.com"
+}
+
+variable "datadog_iam_role_name" {
+  type        = string
+  description = "IAM role name for Datadog AWS integration"
+  default     = "DatadogIntegrationRole"
+}
+
+variable "install_lambda_log_forwarder" {
+  type        = string
+  description = "Whether to install the Lambda log forwarder"
+  default     = "true"
+}
+
+variable "disable_metric_collection" {
+  type        = string
+  description = "Whether to disable metric collection"
+  default     = "false"
+}
+
+variable "cloud_security_posture_management" {
+  type        = string
+  description = "Whether to enable Cloud Security Posture Management (CSPM)"
+  default     = "false"
 }
 
 #####################################

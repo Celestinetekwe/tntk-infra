@@ -21,15 +21,11 @@ module "rds" {
   subnets              = module.vpc.database_subnets
   enable_http_endpoint = true
 
-  scaling_configuration = [
-    {
-      auto_pause               = true
-      max_capacity             = 16
-      min_capacity             = 1
-      seconds_until_auto_pause = 300
-      timeout_action           = "ForceApplyCapacityChange"
-    }
-  ]
+  # Provisioned clusters do not support `scaling_configuration` (Aurora Serverless v1 only).
+  # If you need serverless behavior, change `engine_mode` to "serverless" and ensure
+  # the engine/region supports Serverless v1 (deprecated). For now we use a provisioned
+  # cluster with `cluster_size = 1`.
+
   tags = {
     Name = "${var.tag_env}-rds"
   }
