@@ -19,6 +19,13 @@ resource "aws_cloudformation_stack" "datadog_integration" {
     CloudSecurityPostureManagement = var.cloud_security_posture_management
   }
 
+  # Allow CloudFormation to create IAM resources and run template macros/transforms
+  capabilities = [
+    "CAPABILITY_NAMED_IAM",
+    "CAPABILITY_IAM",
+    "CAPABILITY_AUTO_EXPAND",
+  ]
+
   lifecycle {
     ignore_changes = [
       parameters["APIKey"],
