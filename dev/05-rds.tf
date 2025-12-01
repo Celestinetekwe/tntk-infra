@@ -11,6 +11,7 @@ module "rds" {
   engine_mode          = "provisioned"        # changed "serverless" to "provisioned" since aurora serverless v1 has been deprecated
   cluster_family       = "aurora-mysql8.0"    # use Aurora MySQL 8.0 parameter group
   cluster_size         = 1                    # changed from 0 since provisioned requires at least 1 instance
+  instance_type        = "db.r5.large"      # use an instance class compatible with Aurora MySQL 8.0
   cluster_type         = "regional"           #"regional"
   admin_user           = random_password.rds_admin_username.result
   admin_password       = random_password.rds_password.result

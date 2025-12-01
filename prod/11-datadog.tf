@@ -7,7 +7,8 @@
 
 resource "aws_cloudformation_stack" "datadog_integration" {
   name          = "DatadogIntegration"
-  template_url  = "https://datadog-cloudformation-template-quickstart.s3.amazonaws.com/aws/main_v2.yaml"
+  # Using a patched main template that references a patched role template (to avoid DatadogPolicy macro requirement).
+  template_url  = "https://cf-templates-1tjawajexo35b-us-east-1.s3.amazonaws.com/main_v2-patched.yaml"
 
   parameters = {
     APIKey                       = var.datadog_api_key

@@ -1,0 +1,98 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Patched IAM role for Datadog AWS Integration (removed Fn::Transform DatadogPolicy)
+
+Parameters:
+  ExternalId:
+    Type: String
+  IAMRoleName:
+    Type: String
+    Default: DatadogIntegrationRole
+  BasePermissions:
+    Type: String
+    Default: Full
+    AllowedValues:
+      - Full
+      - Core
+  LogArchives:
+    Type: String
+    Default: ''
+  CloudTrails:
+    Type: String
+    Default: ''
+  CloudSecurityPostureManagementPermissions:
+    Type: String
+    Default: false
+    AllowedValues:
+      - true
+      - false
+  DdAWSAccountId:
+    Type: String
+    Default: '464622532012'
+
+Conditions:
+  GrantFullPermissions:
+    Fn::Equals: [ { Ref: BasePermissions }, Full ]
+  ShouldInstallCSPMPolicy:
+    Fn::Equals: [ { Ref: CloudSecurityPostureManagementPermissions }, true ]
+
+Resources:
+  DatadogIntegrationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${DdAWSAccountId}:root'
+            Action:
+              - sts:AssumeRole
+            Condition:
+              StringEquals:
+                sts:ExternalId: !Ref ExternalId
+      RoleName: !Ref IAMRoleName
+      Policies:
+        - PolicyName: DatadogAWSIntegrationPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              # Placeholder policy replacing DatadogPolicy transforms.
+              # THIS IS BROAD. Review and tighten before production.
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:ListBucket'
+                  - 'logs:CreateLogStream'
+                  - 'logs:CreateLogGroup'
+                  - 'logs:PutLogEvents'
+                  - 'cloudtrail:LookupEvents'
+                  - 'cloudtrail:DescribeTrails'
+                  - 'ec2:Describe*'
+                  - 'tag:GetResources'
+                  - 'tag:GetTagKeys'
+                  - 'tag:GetTagValues'
+                  - 'cloudwatch:GetMetricData'
+                  - 'cloudwatch:GetMetricStatistics'
+                  - 'iam:GetRole'
+                Resource: '*'
+
+  # Optionally attach AWS Managed SecurityAudit if CSPM requested
+  DatadogCSPMManagedPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Condition: ShouldInstallCSPMPolicy
+    Properties:
+      ManagedPolicyName: DatadogCSPMManagedPolicy
+      Roles: [ !Ref DatadogIntegrationRole ]
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'securityhub:BatchImportFindings'
+              - 'config:DeliverConfigSnapshot'
+            Resource: '*'
+
+Outputs:
+  IAMRoleName:
+    Value: !Ref IAMRoleName
+    Description: IAM Role name created for Datadog integration
