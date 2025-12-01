@@ -101,7 +101,7 @@ Resources:
   DatadogIntegrationRoleStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: "https://<YOUR_BUCKET>.s3.amazonaws.com/datadog_integration_role-patched.yaml"
+      TemplateURL: "https://cf-templates-1tjawajexo35b-us-east-1.s3.amazonaws.com/datadog_integration_role-patched.yaml"
       Parameters:
         ExternalId: !GetAtt DatadogAPICall.Outputs.ExternalId
         IAMRoleName: !Ref IAMRoleName
